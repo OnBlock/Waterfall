@@ -1,0 +1,65 @@
+From 2f950969322d3c79cb93ece4726df3483daa26ca Mon Sep 17 00:00:00 2001
+From: "Five (Xer)" <admin@xernium.com>
+Date: Sat, 8 Feb 2020 00:26:40 +0100
+Subject: [PATCH] Tracking 1.16 changes
+
+
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
+index cd987c8a..dec9c7e2 100644
+--- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
++++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
+@@ -28,6 +28,7 @@ public class ProtocolConstants
+     public static final int MINECRAFT_1_15 = 573;
+     public static final int MINECRAFT_1_15_1 = 575;
+     public static final int MINECRAFT_1_15_2 = 578;
++    public static final int MINECRAFT_1_16 = 701; // Waterfall
+     public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
+             "1.8.x",
+             "1.9.x",
+@@ -36,7 +37,8 @@ public class ProtocolConstants
+             "1.12.x",
+             "1.13.x",
+             "1.14.x",
+-            "1.15.x"
++            "1.15.x", // Waterfall start
++            "1.16" // Waterfall end
+     );
+     public static final List<Integer> SUPPORTED_VERSION_IDS = Arrays.asList(
+             ProtocolConstants.MINECRAFT_1_8,
+@@ -60,7 +62,8 @@ public class ProtocolConstants
+             ProtocolConstants.MINECRAFT_1_14_4,
+             ProtocolConstants.MINECRAFT_1_15,
+             ProtocolConstants.MINECRAFT_1_15_1,
+-            ProtocolConstants.MINECRAFT_1_15_2
++            ProtocolConstants.MINECRAFT_1_15_2, // Waterfall start
++            ProtocolConstants.MINECRAFT_1_16 // Waterfall end
+     );
+ 
+     public static final boolean isBeforeOrEq(int before, int other)
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
+index 1b0e4474..c9f767eb 100644
+--- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
++++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
+@@ -587,6 +587,7 @@ public class Commands extends DefinedPacket
+             registerDummy( "minecraft:all_recipes" );
+             registerDummy( "minecraft:available_sounds" );
+             registerDummy( "minecraft:summonable_entities" );
++            registerDummy( "minecraft:available_biomes" ); // Waterfall
+         }
+ 
+         private static void registerDummy(String name)
+diff --git a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
+index e6afb98d..1c009ce0 100644
+--- a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
++++ b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
+@@ -65,6 +65,7 @@ public abstract class EntityMap
+             case ProtocolConstants.MINECRAFT_1_15:
+             case ProtocolConstants.MINECRAFT_1_15_1:
+             case ProtocolConstants.MINECRAFT_1_15_2:
++            case ProtocolConstants.MINECRAFT_1_16: // Waterfall
+                 return EntityMap_1_15.INSTANCE;
+         }
+         throw new RuntimeException( "Version " + version + " has no entity map" );
+-- 
+2.24.0
+
